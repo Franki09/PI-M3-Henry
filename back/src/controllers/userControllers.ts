@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { UserRegisterDTO, UserLoginDTO } from "../DTOs/userDTO";
 
 //* getUsers
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
@@ -18,16 +19,13 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 };
 
 //* getUsersById
-export const getUserById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getUserById = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
     res.status(200).json({
       msg: "Este controlador RECIBIRA del service UN solo USER segun su ID",
-      data: [],
+      data: req.params.id,
     });
   } catch (error) {
     res.status(500).json({
@@ -38,16 +36,13 @@ export const getUserById = async (
 };
 
 //* postRegister
-export const postUserRegister = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const postUserRegister = async (req: Request<unknown, unknown, UserRegisterDTO>, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
     res.status(200).json({
       msg: "Este controlador POSTEARA a la BD el REGISTRO recibido del service",
-      data: [],
+      data: req.body,
     });
   } catch (error) {
     res.status(500).json({
@@ -58,16 +53,13 @@ export const postUserRegister = async (
 };
 
 //* postLogin
-export const postUserLogin = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const postUserLogin = async (req: Request<unknown, unknown, UserLoginDTO>, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
     res.status(200).json({
       msg: "Este controlador POSTEARA a la BD el LOGIN recibido del service",
-      data: [],
+      data: req.body,
     });
   } catch (error) {
     res.status(500).json({

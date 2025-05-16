@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
+import { AppointRegisterDTO } from "../DTOs/appointmentDTO";
 
 //* getAppoints
-export const getAppoints = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getAppoints = async (req: Request, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
@@ -21,16 +19,13 @@ export const getAppoints = async (
 };
 
 //* getAppointsById
-export const getAppointById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getAppointById = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
     res.status(200).json({
       msg: "Este controlador RECIBIRA del service un UN APPOINTMENT segun su ID",
-      data: [],
+      data: req.params.id,
     });
   } catch (error) {
     res.status(500).json({
@@ -41,16 +36,13 @@ export const getAppointById = async (
 };
 
 //* postSchedule
-export const postAppointSchedule = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const postAppointSchedule = async (req: Request<unknown, unknown, AppointRegisterDTO>, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
     res.status(200).json({
       msg: "Este controlador POSTEARA a la DB el SCHEDULE del APPOINTMENT",
-      data: [],
+      data: req.body,
     });
   } catch (error) {
     res.status(500).json({
@@ -61,16 +53,13 @@ export const postAppointSchedule = async (
 };
 
 //* putCancel
-export const putAppointCancel = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const putAppointCancel = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
     //await getUserService()
 
     res.status(200).json({
       msg: "Este controlador ACTUALIZARA el ESTADO del APPOINTMENT",
-      data: [],
+      data: req.params.id,
     });
   } catch (error) {
     res.status(500).json({
