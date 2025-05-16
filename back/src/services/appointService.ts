@@ -1,35 +1,46 @@
-//? Ahora trabajaremos sobre las funciones de servicio. Recuerda en cada servicio crear, por el momento,
-//? un arreglo de elementos que se ajusten a las interfaces creadas que te servirán como “precarga” de datos.
-//? A modo de sugerencia, puedes utilizar ChatGPT para crear esos datos y así ahorrar tiempo.
+import { AppointmentRegisterDTO } from "../DTOs/appointmentDTO";
+import { IAppointment, Status } from "../interfaces/IAppointment";
+import { getUserByIdService } from "./userServices";
 
-//! En el servicio de credenciales:
+const appointments: IAppointment[] = [];
 
-// Implementar una función que reciba username y password y cree un nuevo par de credenciales con estos datos.
-// Debe retornar el ID del par de credenciales creado.
+let identificador: number = 1;
 
-// Implementar una función que recibirá username y password,
-//  y deberá chequear si el nombre de usuario existe entre los datos disponibles y, si es así,
-// si el password es correcto. En caso de que la validación sea exitosa, deberá retornar el ID de las credenciales.
+export const getAppointmentService = async (): Promise<IAppointment[]> => {
+  return appointments;
+};
 
-//! En el servicio de usuarios:
+export const getAppointmentByIdService = async (id: number): Promise<IAppointment> => {
+  const appointmentFound = appointments.find((app) => app.id === id);
+  if (!appointmentFound) throw Error(`La cita con Id: ${id}, no fue encontrada`);
+  return appointmentFound;
+};
 
-// Implementar una función que pueda retornar el arreglo completo de usuarios.
+export const registerAppointmentService = async (appointment: AppointmentRegisterDTO): Promise<IAppointment> => {
+  const userFound = await getUserByIdService(appointment.userId);
 
-// Implementar una función que pueda retornar un elemento del arreglo que haya sido identificado por id.
+  const appointmentFound = appointments.find(
+    (app) =>
+      app.userId === appointment.userId &&
+      app.time === appointment.time &&
+      new Date(app.date).getTime() === new Date(appointment.date).getTime()
+  );
 
-// Implementar una función que pueda crear un nuevo usuario dentro del arreglo PERO
-//  ten en cuenta que al momento de crear el usuario, debe crear su correspondiente
-//  par de credenciales llamando a la función correspondiente del servicio de credenciales.
-//  Al recibir de esta función el id de las credenciales, debe guardar el dato en la propiedad credentialsId.
+  if (appointmentFound) throw Error(`La cita que se intentando crear ya existe`);
 
-//! En el servicio de turnos:
+  const newAppointment: IAppointment = {
+    id: identificador++,
+    date: appointment.date,
+    time: appointment.time,
+    status: Status.active,
+    userId: userFound?.id || 0,
+  };
 
-// Implementar una función que pueda retornar el arreglo completo de turnos.
+  appointments.push(newAppointment);
+  return newAppointment;
+};
 
-// Implementar una función que pueda obtener el detalle de un turno por ID.
-
-// Implementar una función que pueda crear un nuevo turno, siempre guardando, además,
-//  el ID del usuario que ha creado dicho turno. NO PUEDE HABER UN TURNO SIN ID DE USUARIO.
-
-// Implementar una función que reciba el id de un turno específico y una vez identificado el turno correspondiente,
-//  cambiar su estado a “cancelled
+export const cancelAppointmentService = async (id: number): Promise<void> => {
+  const appointmentFound = await getAppointmentByIdService(id);
+  appointmentFound.status = Status.cancelled;
+};

@@ -1,10 +1,12 @@
-import { ICredential } from "./ICredential";
+// import { ICredential } from "./ICredential";
 
 export interface IUser {
   id: number;
   name: string;
   email: string;
-  birthdate: string;
+  birthdate: Date;
   nDni: number;
-  credentialsId: ICredential["id"];
+  credentialsId: number;
+
+  // ICredential["id"];
 }

@@ -1,9 +1,16 @@
-import { IUser } from "./IUser";
+// import { IUser } from "./IUser";
 
-export interface IAppointments {
+export interface IAppointment {
   id: number;
   date: Date;
-  time: number;
-  userId: IUser["id"];
-  status: "active" | "cancelled";
+  time: string;
+  userId: number;
+  status: Status;
+}
+
+// IUser["id"];
+
+export enum Status {
+  active = "active",
+  cancelled = "cancelled",
 }

@@ -1,5 +1,5 @@
-export interface AppointRegisterDTO {
-  fecha: string;
-  hora: string;
-  estado: string;
+export interface AppointmentRegisterDTO {
+  date: Date;
+  time: string;
+  userId: number;
 }

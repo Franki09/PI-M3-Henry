@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
-import { UserRegisterDTO, UserLoginDTO } from "../DTOs/userDTO";
+import { UserRegisterDTO, UserLoginDTO, UserDTO } from "../DTOs/userDTO";
+import { getUserByIdService, getUserService, registerUserService } from "../services/userServices";
+import { IUser } from "../interfaces/IUser";
 
 //* getUsers
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    //await getUserService()
+    const users: UserDTO[] = await getUserService();
 
     res.status(200).json({
       msg: "Este controlador RECIBIRA del service un listado de TODOS los USERS",
-      data: [],
+      data: users,
     });
   } catch (error) {
     res.status(500).json({
@@ -21,11 +23,11 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 //* getUsersById
 export const getUserById = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
-    //await getUserService()
+    const userFound: UserDTO | undefined = await getUserByIdService(parseInt(req.params.id, 10));
 
     res.status(200).json({
       msg: "Este controlador RECIBIRA del service UN solo USER segun su ID",
-      data: req.params.id,
+      data: userFound,
     });
   } catch (error) {
     res.status(500).json({
@@ -38,11 +40,11 @@ export const getUserById = async (req: Request<{ id: string }>, res: Response): 
 //* postRegister
 export const postUserRegister = async (req: Request<unknown, unknown, UserRegisterDTO>, res: Response): Promise<void> => {
   try {
-    //await getUserService()
+    const newUser: IUser = await registerUserService(req.body);
 
     res.status(200).json({
       msg: "Este controlador POSTEARA a la BD el REGISTRO recibido del service",
-      data: req.body,
+      data: newUser,
     });
   } catch (error) {
     res.status(500).json({
