@@ -1,23 +1,22 @@
-import { DataSource } from "typeorm";
-import { User } from "../entities/User";
-import { Appointment } from "../entities/Appointment";
-import { Credential } from "../entities/Credential";
+import { DataSource, Repository } from "typeorm";
+import { EntUser } from "../entities/EntUser";
+import { EntAppointment } from "../entities/EntAppointment";
+import { EntCredential } from "../entities/EntCredential";
+import { config } from "./envs";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "DBpostgresSQL",
-  database: "proyecto_m3",
+  host: config.DB_HOST,
+  port: config.DB_PORT,
+  username: config.DB_USERNAME,
+  password: config.DB_PASSWORD,
+  database: config.DB_NAME,
   synchronize: true,
-  logging: false,
-  entities: [User, Appointment, Credential],
-  subscribers: [],
-  migrations: [],
+  logging: ["error"],
+  entities: ["src/entities/**/*.ts"],
   //   dropSchema: true,
 });
 
-export const UserModel = AppDataSource.getRepository(User);
-export const AppointmentModel = AppDataSource.getRepository(Appointment);
-export const CredentialModel = AppDataSource.getRepository(Credential);
+export const UserModel: Repository<EntUser> = AppDataSource.getRepository(EntUser);
+export const AppointmentModel: Repository<EntAppointment> = AppDataSource.getRepository(EntAppointment);
+export const CredentialModel: Repository<EntCredential> = AppDataSource.getRepository(EntCredential);
