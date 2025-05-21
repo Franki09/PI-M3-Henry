@@ -1,10 +1,11 @@
+import styles from "./NavBar.module.css";
+
 export const NavBar = () => {
   return (
-    <>
-      <h3> Este es el NavBar de mi pagina</h3>
+    <div className={styles.fondo}>
       <span>Home</span>
       <span>Mis Turnos</span>
       <span>Cerrar Sesion</span>
-    </>
+    </div>
   );
 };

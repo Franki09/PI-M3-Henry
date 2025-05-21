@@ -1,0 +1,12 @@
+.cajaTurno {
+  margin: auto;
+  width: fit-content;
+  background-color: red;
+  border: solid rgb(126, 0, 0) 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  gap: 20px;
+}

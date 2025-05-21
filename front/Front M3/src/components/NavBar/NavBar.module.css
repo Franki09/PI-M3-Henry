@@ -1,6 +1,7 @@
 .fondo {
   background-color: rgb(112, 40, 180);
-  height: 20px;
   display: flex;
   justify-content: end;
+  gap: 15px;
+  padding: 15px;
 }
