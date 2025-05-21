@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { EntCredential } from "./EntCredential";
 import { EntAppointment } from "./EntAppointment";
 
@@ -34,8 +25,8 @@ export class EntUser {
   @JoinColumn()
   credentials: EntCredential; //["id"]
 
-  @OneToMany(() => EntAppointment, (appoint) => appoint.user)
-  appoint: EntAppointment[];
+  @OneToMany(() => EntAppointment, (appointments) => appointments.user)
+  appointments: EntAppointment[];
 
   @CreateDateColumn()
   createAt?: Date;

@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { EntUser } from "./EntUser";
+import { Status } from "../interfaces/IAppointment";
 
 @Entity({
   name: "appointments",
@@ -11,13 +12,14 @@ export class EntAppointment {
   @Column({ type: "date", nullable: false })
   date: Date;
 
-  @Column({ type: "varchar", length: 100, nullable: false, unique: true })
+  @Column({ type: "varchar", length: 5, nullable: false })
   time: string;
 
-  @ManyToOne(() => EntUser, (user) => user.appoint)
+  @ManyToOne(() => EntUser, (user) => user.appointments, { nullable: false })
+  @JoinColumn()
   user: EntUser; //["id"]
 
-  @Column()
+  @Column({ type: "varchar", length: 10, nullable: false, default: Status.active })
   status: Status;
 
   @CreateDateColumn()
@@ -25,9 +27,4 @@ export class EntAppointment {
 
   @UpdateDateColumn()
   updateAt?: Date;
-}
-
-export enum Status {
-  active = "active",
-  cancelled = "cancelled",
 }

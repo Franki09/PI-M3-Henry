@@ -1,6 +1,5 @@
 import { DataSource, Repository } from "typeorm";
 import { EntUser } from "../entities/EntUser";
-import { EntAppointment } from "../entities/EntAppointment";
 import { EntCredential } from "../entities/EntCredential";
 import { config } from "./envs";
 
@@ -14,9 +13,8 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: ["error"],
   entities: ["src/entities/**/*.ts"],
-  //   dropSchema: true,
+  dropSchema: true,
 });
 
 export const UserModel: Repository<EntUser> = AppDataSource.getRepository(EntUser);
-export const AppointmentModel: Repository<EntAppointment> = AppDataSource.getRepository(EntAppointment);
 export const CredentialModel: Repository<EntCredential> = AppDataSource.getRepository(EntCredential);

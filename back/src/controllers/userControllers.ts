@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { UserRegisterDTO, UserLoginDTO, UserDTO } from "../DTOs/userDTO";
-import { getUserByIdService, getUserService, registerUserService } from "../services/userServices";
-import { IUser } from "../interfaces/IUser";
+import { getUserByIdService, getUserService, loginUserService, registerUserService } from "../services/userServices";
+import { EntUser } from "../entities/EntUser";
+import { IPostgressError } from "../interfaces/IPostgressError";
 
 //* getUsers
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
@@ -30,7 +31,7 @@ export const getUserById = async (req: Request<{ id: string }>, res: Response): 
       data: userFound,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       msg: "Error al obtener el Usuario especificado",
       error: error instanceof Error ? error.message : "Error Desconocido",
     });
@@ -40,16 +41,18 @@ export const getUserById = async (req: Request<{ id: string }>, res: Response): 
 //* postRegister
 export const postUserRegister = async (req: Request<unknown, unknown, UserRegisterDTO>, res: Response): Promise<void> => {
   try {
-    const newUser: IUser = await registerUserService(req.body);
+    const newUser: EntUser = await registerUserService(req.body);
 
-    res.status(200).json({
+    res.status(201).json({
       msg: "Este controlador POSTEARA a la BD el REGISTRO recibido del service",
       data: newUser,
     });
   } catch (error) {
-    res.status(500).json({
+    const err = error as IPostgressError;
+
+    res.status(400).json({
       msg: "Error al subir el Registro",
-      error: error instanceof Error ? error.message : "Error Desconocido",
+      error: error instanceof Error ? (err.detail ? { detail: err.detail, code: err.code } : err.message) : "Error desconocido",
     });
   }
 };
@@ -57,14 +60,15 @@ export const postUserRegister = async (req: Request<unknown, unknown, UserRegist
 //* postLogin
 export const postUserLogin = async (req: Request<unknown, unknown, UserLoginDTO>, res: Response): Promise<void> => {
   try {
-    //await getUserService()
+    const user: EntUser | null = await loginUserService(req.body);
 
     res.status(200).json({
       msg: "Este controlador POSTEARA a la BD el LOGIN recibido del service",
-      data: req.body,
+      loggin: true,
+      user,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       msg: "Error al subir el Login",
       error: error instanceof Error ? error.message : "Error Desconocido",
     });

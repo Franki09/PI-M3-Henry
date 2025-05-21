@@ -1,46 +1,42 @@
 import { AppointmentRegisterDTO } from "../DTOs/appointmentDTO";
-import { IAppointment, Status } from "../interfaces/IAppointment";
+import { EntAppointment } from "../entities/EntAppointment";
+import { Status } from "../interfaces/IAppointment";
+import { AppointmentRepository } from "../repositories/Appointment.Reppository";
 import { getUserByIdService } from "./userServices";
 
-const appointments: IAppointment[] = [];
-
-let identificador: number = 1;
-
-export const getAppointmentService = async (): Promise<IAppointment[]> => {
+export const getAppointmentService = async (): Promise<EntAppointment[]> => {
+  const appointments: EntAppointment[] = await AppointmentRepository.find();
+  if (appointments.length === 0) throw Error("No hay citas registradas");
   return appointments;
 };
 
-export const getAppointmentByIdService = async (id: number): Promise<IAppointment> => {
-  const appointmentFound = appointments.find((app) => app.id === id);
+export const getAppointmentByIdService = async (id: number): Promise<EntAppointment> => {
+  const appointmentFound = await AppointmentRepository.findOneBy({ id });
   if (!appointmentFound) throw Error(`La cita con Id: ${id}, no fue encontrada`);
   return appointmentFound;
 };
 
-export const registerAppointmentService = async (appointment: AppointmentRegisterDTO): Promise<IAppointment> => {
-  const userFound = await getUserByIdService(appointment.userId);
+export const registerAppointmentService = async (appointment: AppointmentRegisterDTO): Promise<EntAppointment> => {
+  await getUserByIdService(appointment.userId);
 
-  const appointmentFound = appointments.find(
-    (app) =>
-      app.userId === appointment.userId &&
-      app.time === appointment.time &&
-      new Date(app.date).getTime() === new Date(appointment.date).getTime()
-  );
+  AppointmentRepository.validateAllowAppointment(appointment.date, appointment.time);
+  await AppointmentRepository.validateExistingAppointment(appointment.userId, appointment.date, appointment.time);
 
-  if (appointmentFound) throw Error(`La cita que se intentando crear ya existe`);
-
-  const newAppointment: IAppointment = {
-    id: identificador++,
+  const newAppointment = AppointmentRepository.create({
     date: appointment.date,
     time: appointment.time,
-    status: Status.active,
-    userId: userFound?.id || 0,
-  };
+    user: {
+      id: appointment.userId,
+    },
+  });
 
-  appointments.push(newAppointment);
-  return newAppointment;
+  return await AppointmentRepository.save(newAppointment);
 };
 
 export const cancelAppointmentService = async (id: number): Promise<void> => {
-  const appointmentFound = await getAppointmentByIdService(id);
+  const appointmentFound = await AppointmentRepository.findOneBy({ id });
+
+  if (!appointmentFound) throw Error(`La cita con id ${id} no existe`);
   appointmentFound.status = Status.cancelled;
+  await AppointmentRepository.save(appointmentFound);
 };

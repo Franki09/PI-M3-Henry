@@ -1,24 +1,19 @@
 import { Request, Response } from "express";
 import { AppointmentRegisterDTO } from "../DTOs/appointmentDTO";
-import { IAppointment } from "../interfaces/IAppointment";
-import {
-  cancelAppointmentService,
-  getAppointmentByIdService,
-  getAppointmentService,
-  registerAppointmentService,
-} from "../services/appointService";
+import { cancelAppointmentService, getAppointmentByIdService, getAppointmentService, registerAppointmentService } from "../services/appointService";
+import { EntAppointment } from "../entities/EntAppointment";
 
 //* getAppoints
 export const getAppoints = async (req: Request, res: Response): Promise<void> => {
   try {
-    const appointments: IAppointment[] = await getAppointmentService();
+    const appointments: EntAppointment[] = await getAppointmentService();
 
     res.status(200).json({
       msg: "Este controlador RECIBIRA del service un listado de todos los APPOINTMENTS",
       data: appointments,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       msg: "Error al obtener el listado de Appointments",
       error: error instanceof Error ? error.message : "Error Desconocido",
     });
@@ -28,14 +23,14 @@ export const getAppoints = async (req: Request, res: Response): Promise<void> =>
 //* getAppointsById
 export const getAppointById = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
-    const appointmentFound: IAppointment = await getAppointmentByIdService(parseInt(req.params.id, 10));
+    const appointmentFound: EntAppointment = await getAppointmentByIdService(parseInt(req.params.id, 10));
 
     res.status(200).json({
       msg: "Este controlador RECIBIRA del service un UN APPOINTMENT segun su ID",
       data: appointmentFound,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       msg: "Error al obtener el Appointment especificado",
       error: error instanceof Error ? error.message : "Error Desconocido",
     });
@@ -43,19 +38,16 @@ export const getAppointById = async (req: Request<{ id: string }>, res: Response
 };
 
 //* postSchedule (REGISTRO)
-export const postAppointSchedule = async (
-  req: Request<unknown, unknown, AppointmentRegisterDTO>,
-  res: Response
-): Promise<void> => {
+export const postAppointSchedule = async (req: Request<unknown, unknown, AppointmentRegisterDTO>, res: Response): Promise<void> => {
   try {
-    const appointmentCreate: IAppointment = await registerAppointmentService(req.body);
+    const appointmentCreate: EntAppointment = await registerAppointmentService(req.body);
 
-    res.status(200).json({
+    res.status(201).json({
       msg: "Este controlador POSTEARA a la DB el SCHEDULE del APPOINTMENT",
       data: appointmentCreate,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       msg: "Error al subir el schedule",
       error: error instanceof Error ? error.message : "Error Desconocido",
     });
@@ -71,7 +63,7 @@ export const putAppointCancel = async (req: Request<{ id: string }>, res: Respon
       msg: "Cita cancelada con exito",
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       msg: "Error al actulizar el Appointment",
       error: error instanceof Error ? error.message : "Error Desconocido",
     });

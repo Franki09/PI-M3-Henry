@@ -2,12 +2,13 @@
 
 ## Rutas
 
-### GET /user/:id
+### GET /user/: - OK
 
 - **Descripción:** Obtiene un usuario por su id junto con sus turnos.
 - **Parámetros:** id: id del usuario.
 
 - **Respuesta:**
+
   - 200: Si el usuario fue encontrado.
   - 404: Si el usuario no fue encontrado.
 
@@ -37,10 +38,11 @@
   }
   ```
 
-### POST /user/register
+### POST /user/register - OK
 
 - **Descripción:** Crea un nuevo usuario.
 - **Parámetros:**
+
   - name: nombre del usuario.
   - email: email del usuario.
   - birthdate: fecha de nacimiento del usuario.
@@ -52,14 +54,16 @@
   - 201: Si el usuario fue creado.
   - 400: Si los datos son incorrectos.
 
-### POST /users/login
+### POST /users/login - OK
 
 - **Descripción:** Inicia sesión de un usuario.
 - **Parámetros:**
+
   - username: nombre de usuario.
   - password: contraseña del usuario.
 
 - **Respuesta:**
+
   - 200: Si el usuario fue logueado.
   - 400: Si los datos son incorrectos.
 
@@ -74,11 +78,11 @@
       "email": "cgomez@mail.com",
       "birthdate": "1990-01-01",
       "nDni": 12345678
-      }
-   }
-   ```
+    }
+  }
+  ```
 
-### GET /turns/:id
+### GET /appointments/:id - OK
 
 - **Descripción:** Obtiene el detalle de un turno.
 
@@ -88,19 +92,20 @@
   - 200: Si el turno fue encontrado.
   - 404: Si el turno no fue encontrado.
 
-### POST /turns/schedule
+### POST /appointments/schedule = OK
 
 - **Descripción:** Crea un nuevo turno.
 - **Parámetros:**
+
   - date: fecha del turno.
   - time: hora del turno.
   - userId: id del usuario.
 
 - **Respuesta:**
-    - 201: Si el turno fue creado.
-    - 400: Si los datos son incorrectos.
+  - 201: Si el turno fue creado.
+  - 400: Si los datos son incorrectos.
 
-### PUT /turns/cancel/:id
+### PUT /appointments/cancel/:id - OK
 
 - **Descripción:** Cancela un turno.
 - **Parámetros:** id: id del turno.
@@ -109,11 +114,10 @@
   - 200: Si el turno fue cancelado.
   - 404: Si el turno no fue encontrado.
 
-### GET /turns
+### GET /appointments - OK
 
 - **Descripción:** Obtiene todos los turnos.
 
 - **Respuesta:**
   - 200: Si los turnos fueron encontrados.
   - 404: Si no se encontraron turnos.
-
