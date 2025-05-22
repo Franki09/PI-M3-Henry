@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: ["error"],
   entities: ["src/entities/**/*.ts"],
-  dropSchema: true,
+  dropSchema: false,
 });
 
 export const UserModel: Repository<EntUser> = AppDataSource.getRepository(EntUser);
