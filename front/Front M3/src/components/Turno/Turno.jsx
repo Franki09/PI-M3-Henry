@@ -1,6 +1,6 @@
 import styles from "./Turno.module.css";
 
-export const Turno = ({ id, date, time, status }) => {
+const Turno = ({ id, date, time, status }) => {
   return (
     <div className={styles.cajaTurno}>
       <h2>
@@ -19,3 +19,5 @@ export const Turno = ({ id, date, time, status }) => {
     </div>
   );
 };
+
+export default Turno;

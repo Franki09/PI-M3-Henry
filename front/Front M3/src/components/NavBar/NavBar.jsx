@@ -1,6 +1,6 @@
 import styles from "./NavBar.module.css";
 
-export const NavBar = () => {
+const NavBar = () => {
   return (
     <div className={styles.fondo}>
       <span>Home</span>
@@ -9,3 +9,5 @@ export const NavBar = () => {
     </div>
   );
 };
+
+export default NavBar;

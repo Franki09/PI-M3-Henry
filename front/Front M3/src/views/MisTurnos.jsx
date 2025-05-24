@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Turno } from "../components/Turno/Turno";
+import Turno from "../components/Turno/Turno";
 import axios from "axios";
 
-export const MisTurnos = () => {
+const MisTurnos = () => {
   const [turnos, setTurnos] = useState([]);
   console.log(turnos);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/appointments").then((res) => {
-      console.log("Respuesta del backend:", res.data.data);
-      setTurnos(res.data.data);
+    axios.get("http://localhost:3000/appointments").then(({ data }) => {
+      console.log("Respuesta del backend:", data.data);
+      setTurnos(data.data);
     });
   }, []);
 
@@ -26,3 +26,5 @@ export const MisTurnos = () => {
     </>
   );
 };
+
+export default MisTurnos;
