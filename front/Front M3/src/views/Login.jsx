@@ -1,67 +1,78 @@
-import { useState } from "react";
-import { validate } from "../helpers/validate";
+import { useFormik } from "formik";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { validateLogin } from "../helpers/validate";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [userLogin, setUserLogin] = useState({
-    username: "",
-    password: "",
-  });
-  console.log(userLogin);
+  const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({});
-  //   console.log(errors);
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
 
-  const handlerInputChange = (event) => {
-    const { name, value } = event.target;
-    const newUserData = {
-      ...userLogin,
-      [name]: value,
-    };
-
-    setUserLogin(newUserData);
-    setErrors(validate(newUserData));
-  };
-
-  const handlesubmit = (event) => {
-    event.preventDefault();
-    const hayInputsVacios = Object.values(userLogin).some((value) => value.trim() === "");
-
-    if (hayInputsVacios || Object.keys(errors).length) {
-      return alert("Debes llenar los campos correctamente");
-    } else {
-      console.log("Datos a enviar:", userLogin);
+    validate: validateLogin,
+    onSubmit: (values) => {
       axios
-        .post("http://localhost:3000/users/login", userLogin)
-        .then(() => {
-          alert("Credenciales correctas, Bienvenido!");
+        .post("http://localhost:3000/users/login", values)
+        .then((res) => {
+          if (res.status === 200) {
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+
+            Swal.fire({
+              icon: "success",
+              title: "Todo en orden!",
+              text: "Bienvenido a la pagina",
+            });
+
+            navigate("/home");
+          }
         })
-        .catch((error) => {
-          console.error("Error al hacer el login:", error);
-          alert("Hubo un error con las credenciales");
+        .catch((err) => {
+          console.log(err);
+
+          if (err.status === 400) {
+            Swal.fire({
+              icon: "error",
+              title: `${err.response.data.error}`,
+              text: "Intentelo de nuevo",
+            });
+          }
         });
-    }
+    },
+  });
+
+  const handleOnClick = () => {
+    navigate("/register");
   };
 
   return (
     <>
-      <form onSubmit={handlesubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <h2>Login de Usuario </h2>
 
         {/*  Username */}
         <div>
           <label>Nombre de Usuario</label>
-          <input type="text" value={userLogin.username} name="username" onChange={handlerInputChange} />
-          {errors.username && <p style={{ color: "red" }}>{errors.username} </p>}
+          <input type="text" value={formik.values.username} name="username" onChange={formik.handleChange} />
+          {formik.errors.username && <p style={{ color: "red" }}>{formik.errors.username} </p>}
         </div>
         {/* password */}
         <div>
           <label>Contraseña</label>
-          <input type="password" value={userLogin.password} name="password" onChange={handlerInputChange} />
-          {errors.password && <p style={{ color: "red" }}>{errors.password} </p>}
+          <input type="password" value={formik.values.password} name="password" onChange={formik.handleChange} />
+          {formik.errors.password && <p style={{ color: "red" }}>{formik.errors.password} </p>}
         </div>
         <button type="submit">Ingresar a la pagina</button>
       </form>
+
+      <h2>Todavia no te registraste?</h2>
+      <div>
+        <h3>Toca aqui para hacer el registro ➡️</h3>
+        <button onClick={handleOnClick}>Registrarse</button>
+      </div>
     </>
   );
 };

@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { validate } from "../helpers/validate";
+import { validateRegister } from "../helpers/validate";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [userRegister, setUserRegister] = useState({
     name: "",
     email: "",
@@ -24,7 +28,7 @@ const Register = () => {
     };
 
     setUserRegister(newUserData);
-    setErrors(validate(newUserData));
+    setErrors(validateRegister(newUserData));
   };
 
   const handlesubmit = (event) => {
@@ -32,17 +36,47 @@ const Register = () => {
     const hayInputsVacios = Object.values(userRegister).some((value) => value.trim() === "");
 
     if (hayInputsVacios || Object.keys(errors).length) {
-      return alert("Debes llenar todos los campos correctamente");
+      return Swal.fire({
+        title: "Algo anda mal",
+        text: "Debes llenar todos los campos correctamente",
+        icon: "warning",
+      });
     } else {
       console.log("Datos a enviar:", userRegister);
       axios
         .post("http://localhost:3000/users/register", userRegister)
-        .then(() => {
-          alert("Usuario registrado con exito");
+        .then((res) => {
+          if (res.status === 201) {
+            Swal.fire({
+              title: "Registro enviado correctamente",
+              text: "Ya puedes hacer el logeo",
+              icon: "success",
+            });
+
+            navigate("/");
+          }
         })
-        .catch((error) => {
-          console.error("Error al registrar usuario:", error);
-          alert("Hubo un error al registrar el usuario");
+        .catch((err) => {
+          console.error("Error al registrar usuario:", err);
+          if (err.response.data.error.detail.includes("email")) {
+            Swal.fire({
+              text: "Ya existe un usuario con ese Email",
+              icon: "error",
+            });
+          } else if (err.response.data.error.detail.includes("nDni")) {
+            Swal.fire({
+              text: "Ya existe un usuario con ese numero de DNI",
+              icon: "error",
+            });
+          }
+
+          //! NO FUNCIONA
+          if (err.response.data.error.includes("El usuario con username")) {
+            Swal.fire({
+              text: "Ese Username ya esta en uso",
+              icon: "error",
+            });
+          }
         });
     }
   };
@@ -84,10 +118,10 @@ const Register = () => {
         {/* password */}
         <div>
           <label>Contraseña</label>
-          <input type="password" value={userRegister.password} name="password" onChange={handlerInputChange} />
+          <input type="text" value={userRegister.password} name="password" onChange={handlerInputChange} />
           {errors.password && <p style={{ color: "red" }}>{errors.password} </p>}
         </div>
-        <button type="submit">Registrase</button>
+        <button type="submit">Registrarse</button>
       </form>
     </>
   );

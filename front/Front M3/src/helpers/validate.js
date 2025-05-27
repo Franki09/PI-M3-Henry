@@ -1,6 +1,6 @@
 import { validationUserAge } from "./validateUserAge";
 
-export const validate = (input) => {
+export const validateRegister = (input) => {
   const errors = {};
 
   if (!input.name.trim()) {
@@ -41,4 +41,18 @@ export const validate = (input) => {
   }
 
   return errors;
+};
+
+export const validateLogin = (input) => {
+  const errors = {};
+
+  if (!input.username.trim()) {
+    errors.username = "El nombre de usuario es obligatorio";
+  }
+
+  if (!input.password.trim()) {
+    errors.password = "La contraseña es obligatoria";
+  } else if (input.password.length < 6) {
+    errors.password = "La contraseña debe tener al menos 6 caracteres";
+  }
 };

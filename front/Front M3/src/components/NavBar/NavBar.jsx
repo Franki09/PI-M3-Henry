@@ -1,11 +1,12 @@
 import styles from "./NavBar.module.css";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <div className={styles.fondo}>
-      <span>Home</span>
-      <span>Mis Turnos</span>
-      <span>Cerrar Sesion</span>
+      <Link to="/home">Home</Link>
+      <Link to="/appointments">Mis Turnos</Link>
+      <button>Cerrar Sesion</button>
     </div>
   );
 };

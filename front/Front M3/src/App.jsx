@@ -4,16 +4,23 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import MisTurnos from "./views/MisTurnos";
 import Register from "./views/Register";
+import { Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
-      <Register />
-      <Login />
+      {location.pathname === "/" || location.pathname === "/register" ? null : <NavBar />}
 
-      {/* <NavBar />
-      <Home />
-      <MisTurnos />  */}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/home" element={<Home />} />
+        <Route path="/appointments" element={<MisTurnos />} />
+      </Routes>
     </>
   );
 }
