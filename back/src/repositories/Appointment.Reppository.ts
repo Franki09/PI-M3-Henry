@@ -28,9 +28,9 @@ export const AppointmentRepository = AppDataSource.getRepository(EntAppointment)
       throw new Error("No se pueden agendar citas los domingos");
     }
 
-    // Validación 4: Sólo entre 8am y 6pm //! POR MODIFICAR
+    // Validación 4: Sólo entre 8am y 6pm
     const hour = appointmentDate.hour();
-    if (hour < 8 || hour > 18) {
+    if (hour < 12 || hour > 22) {
       throw new Error("Las citas deben agendarse entre las 8 am y las 6 pm");
     }
   },

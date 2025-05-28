@@ -5,7 +5,8 @@ const NavBar = () => {
   return (
     <div className={styles.fondo}>
       <Link to="/home">Home</Link>
-      <Link to="/appointments">Mis Turnos</Link>
+      <Link to="/crearTurno">Crear Reservas</Link>
+      <Link to="/misTurnos">Mis Reservas</Link>
       <button>Cerrar Sesion</button>
     </div>
   );

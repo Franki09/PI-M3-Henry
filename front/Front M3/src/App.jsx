@@ -1,9 +1,10 @@
 // import "./App.css"
 import NavBar from "./components/NavBar/NavBar";
-import Home from "./views/Home";
-import Login from "./views/Login";
-import MisTurnos from "./views/MisTurnos";
-import Register from "./views/Register";
+import Home from "./views/Home/Home";
+import Login from "./views/Login/Login";
+import CrearTurno from "./views/CrearTurno/CrearTurno";
+import MisTurnos from "./views/MisTurnos/MisTurnos";
+import Register from "./views/Register/Register";
 import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -19,7 +20,8 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route path="/home" element={<Home />} />
-        <Route path="/appointments" element={<MisTurnos />} />
+        <Route path="/crearTurno" element={<CrearTurno />} />
+        <Route path="/misTurnos" element={<MisTurnos />} />
       </Routes>
     </>
   );

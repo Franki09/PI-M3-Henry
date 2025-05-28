@@ -52,7 +52,7 @@ export const postUserRegister = async (req: Request<unknown, unknown, UserRegist
 
     res.status(400).json({
       msg: "Error al subir el Registro",
-      error: error instanceof Error ? (err.detail ? { detail: err.detail, code: err.code } : err.message) : "Error desconocido",
+      error: error instanceof Error ? (err.detail ? err.detail : err.message) : "Error desconocido",
     });
   }
 };

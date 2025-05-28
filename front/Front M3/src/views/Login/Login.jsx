@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { validateLogin } from "../helpers/validate";
+import { validateLogin } from "../../helpers/validate";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -14,6 +14,7 @@ const Login = () => {
     },
 
     validate: validateLogin,
+
     onSubmit: (values) => {
       axios
         .post("http://localhost:3000/users/login", values)

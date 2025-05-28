@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { validateRegister } from "../helpers/validate";
+import { validateRegister } from "../../helpers/validate";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -58,20 +58,17 @@ const Register = () => {
         })
         .catch((err) => {
           console.error("Error al registrar usuario:", err);
-          if (err.response.data.error.detail.includes("email")) {
+          if (err.response.data.error.includes("email")) {
             Swal.fire({
               text: "Ya existe un usuario con ese Email",
               icon: "error",
             });
-          } else if (err.response.data.error.detail.includes("nDni")) {
+          } else if (err.response.data.error.includes("nDni")) {
             Swal.fire({
               text: "Ya existe un usuario con ese numero de DNI",
               icon: "error",
             });
-          }
-
-          //! NO FUNCIONA
-          if (err.response.data.error.includes("El usuario con username")) {
+          } else if (err.response.data.error.includes("El usuario con username")) {
             Swal.fire({
               text: "Ese Username ya esta en uso",
               icon: "error",

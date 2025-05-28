@@ -1,4 +1,5 @@
 import { validationUserAge } from "./validateUserAge";
+import moment from "moment";
 
 export const validateRegister = (input) => {
   const errors = {};
@@ -55,4 +56,50 @@ export const validateLogin = (input) => {
   } else if (input.password.length < 6) {
     errors.password = "La contraseña debe tener al menos 6 caracteres";
   }
+};
+
+export const validateAppointment = (input) => {
+  const errors = {};
+  const { date, time } = input;
+
+  if (!date) {
+    errors.date = "Debes ingresar una fecha";
+  }
+
+  if (!time) {
+    errors.time = "Debes ingresar una hora";
+  }
+
+  if (!/^\d{2}:\d{2}$/.test(time)) {
+    errors.time = "Formato de hora inválido (usa HH:mm)";
+  }
+
+  if (date && time) {
+    const [hours, minutes] = time.split(":").map(Number);
+    const appointmentDate = moment(date).set({ hour: hours, minute: minutes, second: 0 });
+
+    const now = moment();
+    const threeHoursAgo = moment().subtract(3, "hours");
+
+    if (appointmentDate.isBefore(threeHoursAgo)) {
+      errors.date = "No se pueden agendar citas para fechas pasadas";
+    }
+
+    const diffInHours = appointmentDate.diff(now, "hours");
+    if (diffInHours < 24) {
+      errors.date = "Las citas deben agendarse con al menos 24 horas";
+    }
+
+    const dayOfWeek = appointmentDate.day();
+    if (dayOfWeek === 0) {
+      errors.date = "No se pueden agendar citas los domingos";
+    }
+
+    const hour = appointmentDate.hour();
+    if (hour < 12 || hour > 22) {
+      errors.time = "Las citas deben agendarse entre las 12:00 y las 23:00";
+    }
+  }
+
+  return errors;
 };
