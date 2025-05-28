@@ -3,6 +3,7 @@ import { validateRegister } from "../../helpers/validate";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import styles from "./Register.module.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -80,45 +81,47 @@ const Register = () => {
 
   return (
     <>
-      <form onSubmit={handlesubmit}>
+      <form onSubmit={handlesubmit} className={styles.cajaForm}>
         <h2>Registro de Usuario</h2>
         {/*  Nombre de usuario */}
-        <div>
-          <label>Nombre</label>
+        <div className={styles.cajaInput}>
+          <label>Nombre: </label>
           <input type="text" value={userRegister.name} name="name" onChange={handlerInputChange} />
           {errors.name && <p style={{ color: "red" }}>{errors.name} </p>}
         </div>
         {/*  Email */}
-        <div>
-          <label>Email</label>
+        <div className={styles.cajaInput}>
+          <label>Email: </label>
           <input type="email" value={userRegister.email} name="email" onChange={handlerInputChange} />
           {errors.email && <p style={{ color: "red" }}>{errors.email} </p>}
         </div>
         {/*  birthdate */}
-        <div>
-          <label>Fecha de nacimiento</label>
+        <div className={styles.cajaInput}>
+          <label>Fecha de nacimiento: </label>
           <input type="date" value={userRegister.birthdate} name="birthdate" onChange={handlerInputChange} />
           {errors.birthdate && <p style={{ color: "red" }}>{errors.birthdate} </p>}
         </div>
         {/* Dni */}
-        <div>
-          <label>Numero de Dni</label>
+        <div className={styles.cajaInput}>
+          <label>Numero de Dni: </label>
           <input type="number" value={userRegister.nDni} name="nDni" onChange={handlerInputChange} />
           {errors.nDni && <p style={{ color: "red" }}>{errors.nDni} </p>}
         </div>
         {/*  Username */}
-        <div>
-          <label>Nombre de Usuario</label>
+        <div className={styles.cajaInput}>
+          <label>Nombre de Usuario: </label>
           <input type="text" value={userRegister.username} name="username" onChange={handlerInputChange} />
           {errors.username && <p style={{ color: "red" }}>{errors.username} </p>}
         </div>
         {/* password */}
-        <div>
-          <label>Contraseña</label>
+        <div className={styles.cajaInput}>
+          <label>Contraseña: </label>
           <input type="text" value={userRegister.password} name="password" onChange={handlerInputChange} />
           {errors.password && <p style={{ color: "red" }}>{errors.password} </p>}
         </div>
-        <button type="submit">Registrarse</button>
+        <button type="submit" className={styles.buttonInput}>
+          Registrarse
+        </button>
       </form>
     </>
   );

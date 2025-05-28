@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { validateAppointment } from "../../helpers/validate";
 import axios from "axios";
 import Swal from "sweetalert2";
+import styles from "./CrearTurno.module.css";
 
 const CrearTurno = () => {
   const formik = useFormik({
@@ -70,20 +71,22 @@ const CrearTurno = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.cajaForm}>
         <h2>Hacer una Reserva</h2>
-        <div>
+        <div className={styles.cajaInput}>
           <label>Dia de la Reserva</label>
           <input type="date" name="date" value={formik.values.date} onChange={formik.handleChange} />
           {formik.errors.date && <p style={{ color: "red" }}>{formik.errors.date} </p>}
         </div>
 
-        <div>
+        <div className={styles.cajaInput}>
           <label>Hora de la Reserva</label>
           <input type="text" name="time" value={formik.values.time} onChange={formik.handleChange} />
           {formik.errors.time && <p style={{ color: "red" }}>{formik.errors.time} </p>}
         </div>
-        <button type="submit">Crear Reserva</button>
+        <button type="submit" className={styles.buttonInput}>
+          Crear Reserva
+        </button>
       </form>
     </>
   );

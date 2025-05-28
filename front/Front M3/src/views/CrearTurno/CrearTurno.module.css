@@ -1,0 +1,25 @@
+.cajaForm {
+  background-color: rgb(255, 111, 58);
+  border: solid brown 5px;
+  border-radius: 15px;
+  margin: auto;
+  width: fit-content;
+  padding: 15px;
+  text-align: center;
+}
+
+.cajaInput {
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonInput {
+  margin: auto;
+  border-radius: 10px;
+  display: flex;
+}
+
+.buttonInput:hover {
+  background-color: aqua;
+}

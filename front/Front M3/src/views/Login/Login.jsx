@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { validateLogin } from "../../helpers/validate";
 import { useNavigate } from "react-router-dom";
+import styles from "./Login.module.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,31 +51,37 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className={styles.cajaForm}>
       <form onSubmit={formik.handleSubmit}>
-        <h2>Login de Usuario </h2>
+        <h1>Login de Usuario </h1>
 
         {/*  Username */}
-        <div>
-          <label>Nombre de Usuario</label>
+        <div className={styles.cajaInput}>
+          <label>Nombre de Usuario: </label>
           <input type="text" value={formik.values.username} name="username" onChange={formik.handleChange} />
           {formik.errors.username && <p style={{ color: "red" }}>{formik.errors.username} </p>}
         </div>
         {/* password */}
-        <div>
-          <label>Contraseña</label>
+        <div className={styles.cajaInput}>
+          <label>Contraseña: </label>
           <input type="password" value={formik.values.password} name="password" onChange={formik.handleChange} />
           {formik.errors.password && <p style={{ color: "red" }}>{formik.errors.password} </p>}
         </div>
-        <button type="submit">Ingresar a la pagina</button>
+        <button type="submit" className={styles.buttonInput}>
+          Ingresar a la pagina
+        </button>
       </form>
 
       <h2>Todavia no te registraste?</h2>
-      <div>
-        <h3>Toca aqui para hacer el registro ➡️</h3>
-        <button onClick={handleOnClick}>Registrarse</button>
+      <div className={styles.cajaParaRegister}>
+        <h3>
+          Toca aqui para <br /> hacer el registro ➡️
+        </h3>
+        <button onClick={handleOnClick} className={styles.button}>
+          Registrarse
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 
