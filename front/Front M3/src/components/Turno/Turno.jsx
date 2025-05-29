@@ -3,7 +3,7 @@ import styles from "./Turno.module.css";
 import Swal from "sweetalert2";
 import { useState } from "react";
 
-const Turno = ({ id, date, time, status }) => {
+const Turno = ({ id, date, time, status, setDataFromBack }) => {
   const [currentStatus, setCurrentStatus] = useState(status);
 
   const handleOnClick = () => {
@@ -28,7 +28,8 @@ const Turno = ({ id, date, time, status }) => {
             });
           });
         }
-        setCurrentStatus("cancelado");
+        setDataFromBack(false);
+        setCurrentStatus("cancelled");
       })
 
       .catch((error) => {

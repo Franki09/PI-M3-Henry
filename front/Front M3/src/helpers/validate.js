@@ -87,7 +87,7 @@ export const validateAppointment = (input) => {
 
     const diffInHours = appointmentDate.diff(now, "hours");
     if (diffInHours < 24) {
-      errors.date = "Las citas deben agendarse con al menos 24 horas";
+      errors.date = "Las citas deben agendarse con al menos 24 horas de anticipacion";
     }
 
     const dayOfWeek = appointmentDate.day();

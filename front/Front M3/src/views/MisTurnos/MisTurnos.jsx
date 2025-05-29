@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
 import Turno from "../../components/Turno/Turno";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import SinReservas from "../../components/SinReservas/SinReservas";
 
-const MisTurnos = () => {
+const MisTurnos = ({ userId, dataFromBack }) => {
   const [turnos, setTurnos] = useState([]);
   console.log(turnos);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3000/appointments").then(({ data }) => {
-      console.log("Respuesta del backend:", data.data);
-      setTurnos(data.data);
-    });
-  }, []);
-
-  const handleOnClick = () => {
-    navigate("/crearTurno");
-  };
+    if (!dataFromBack.dataFromBack) {
+      axios
+        .get(`http://localhost:3000/users/${userId}`)
+        .then(({ data }) => {
+          localStorage.setItem("appointments", JSON.stringify(data.data.appointments));
+          setTurnos(JSON.parse(localStorage.getItem("appointments")));
+          dataFromBack.setDataFromBack(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setTurnos(JSON.parse(localStorage.getItem("appointments")));
+    }
+  }, [userId, dataFromBack]);
 
   if (!turnos || turnos.length === 0) {
     return (
       <>
-        <h2>No hay reservas registradas por el momento</h2>
-        <div>
-          <p>Quieres hacer una reserva? Clickea aqui ➡️</p>
-          <button onClick={handleOnClick}>Hacer una Reserva</button>
-        </div>
+        <SinReservas />
       </>
     );
   } else {
@@ -37,7 +38,16 @@ const MisTurnos = () => {
 
         <div>
           {turnos.map((turno) => {
-            return <Turno key={turno.id} id={turno.id} date={turno.date} time={turno.time} status={turno.status} />;
+            return (
+              <Turno
+                key={turno.id}
+                id={turno.id}
+                date={turno.date}
+                time={turno.time}
+                status={turno.status}
+                setDataFromBack={dataFromBack.setDataFromBack}
+              />
+            );
           })}
         </div>
       </>

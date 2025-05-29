@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import styles from "./CrearTurno.module.css";
 
-const CrearTurno = () => {
+const CrearTurno = ({ setDataFromBack }) => {
   const formik = useFormik({
     initialValues: {
       date: "",
@@ -32,9 +32,8 @@ const CrearTurno = () => {
               title: "Reserva agendada",
               text: "Puedes ver tus reservas en Mis Reservas",
             });
-
-            //   navigate("/home");
           }
+          setDataFromBack(false);
         })
         .catch((err) => {
           console.log(err);
@@ -74,14 +73,14 @@ const CrearTurno = () => {
       <form onSubmit={handleSubmit} className={styles.cajaForm}>
         <h2>Hacer una Reserva</h2>
         <div className={styles.cajaInput}>
-          <label>Dia de la Reserva</label>
-          <input type="date" name="date" value={formik.values.date} onChange={formik.handleChange} />
+          <label>Dia de la Reserva: </label>
+          <input type="date" name="date" min={new Date().toISOString().split("T")[0]} value={formik.values.date} onChange={formik.handleChange} />
           {formik.errors.date && <p style={{ color: "red" }}>{formik.errors.date} </p>}
         </div>
 
         <div className={styles.cajaInput}>
-          <label>Hora de la Reserva</label>
-          <input type="text" name="time" value={formik.values.time} onChange={formik.handleChange} />
+          <label>Hora de la Reserva: </label>
+          <input type="time" name="time" value={formik.values.time} onChange={formik.handleChange} />
           {formik.errors.time && <p style={{ color: "red" }}>{formik.errors.time} </p>}
         </div>
         <button type="submit" className={styles.buttonInput}>

@@ -5,24 +5,43 @@ import Login from "./views/Login/Login";
 import CrearTurno from "./views/CrearTurno/CrearTurno";
 import MisTurnos from "./views/MisTurnos/MisTurnos";
 import Register from "./views/Register/Register";
-import { Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(false);
+  const [dataFromBack, setDataFromBack] = useState(false);
+
+  useEffect(() => {
+    const userJson = localStorage.getItem("user");
+    const user = JSON.parse(userJson);
+
+    if (user) setUser(user.id);
+
+    if (!user && location.pathname !== "/" && location.pathname !== "/register") navigate("/");
+
+    if (user && location.pathname === "/" && location.pathname === "/register") navigate("/home");
+  }, [location.pathname, user, navigate]);
 
   return (
     <>
-      {location.pathname === "/" || location.pathname === "/register" ? null : <NavBar />}
-
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        <Route path="/home" element={<Home />} />
-        <Route path="/crearTurno" element={<CrearTurno />} />
-        <Route path="/misTurnos" element={<MisTurnos />} />
-      </Routes>
+      {!user ? (
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      ) : (
+        <>
+          <NavBar setUser={setUser} setDataFromBack={setDataFromBack} />
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/crearTurno" element={<CrearTurno setDataFromBack={setDataFromBack} />} />
+            <Route path="/misTurnos" element={<MisTurnos userId={user} dataFromBack={{ dataFromBack, setDataFromBack }} />} />
+          </Routes>
+        </>
+      )}
     </>
   );
 }
