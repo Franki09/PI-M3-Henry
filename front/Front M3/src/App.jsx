@@ -27,20 +27,22 @@ function App() {
 
   return (
     <>
+      <div className="app-background" />
+
       {!user ? (
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
       ) : (
-        <>
+        <div className="app-content">
           <NavBar setUser={setUser} setDataFromBack={setDataFromBack} />
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/crearTurno" element={<CrearTurno setDataFromBack={setDataFromBack} />} />
             <Route path="/misTurnos" element={<MisTurnos userId={user} dataFromBack={{ dataFromBack, setDataFromBack }} />} />
           </Routes>
-        </>
+        </div>
       )}
     </>
   );

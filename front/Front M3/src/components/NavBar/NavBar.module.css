@@ -1,7 +1,89 @@
 .fondo {
-  background-color: rgb(112, 40, 180);
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 30px;
+  width: auto;
+  background-color: rgb(160, 0, 0);
+  padding: 15px 0;
   display: flex;
-  justify-content: end;
-  gap: 15px;
-  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  z-index: 999; /* Asegura que quede por encima del fondo */
+}
+
+/* logo y nombre de la pagina */
+.izquierda {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.img {
+  margin-left: 20px;
+  height: 50px;
+}
+
+.nombre {
+  color: black;
+  font-size: xx-large;
+}
+
+/* Links y boton de loggout */
+.derecha {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.link {
+  text-decoration: none;
+  font-size: large;
+  color: black;
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.link:hover {
+  background-color: orange;
+}
+
+.buttonLoggout {
+  border-radius: 15px;
+  background-color: red;
+  border: solid white 3px;
+  color: white;
+  font-size: medium;
+  text-align: center;
+  padding: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buttonLoggout:hover {
+  animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

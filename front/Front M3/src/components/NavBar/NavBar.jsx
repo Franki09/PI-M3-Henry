@@ -1,6 +1,7 @@
 import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import logo from "../../assets/98017.png";
 
 const NavBar = ({ setUser, setDataFromBack }) => {
   const navigate = useNavigate();
@@ -33,10 +34,25 @@ const NavBar = ({ setUser, setDataFromBack }) => {
 
   return (
     <div className={styles.fondo}>
-      <Link to="/home">Home</Link>
-      <Link to="/crearTurno">Crear Reservas</Link>
-      <Link to="/misTurnos">Mis Reservas</Link>
-      <button onClick={logOutHandler}>Cerrar Sesion</button>
+      <div className={styles.izquierda}>
+        <img src={logo} alt="logo" className={styles.img} />
+        <h2 className={styles.nombre}>Ricas Reservas</h2>
+      </div>
+
+      <div className={styles.derecha}>
+        <Link to="/home" className={styles.link}>
+          HOME
+        </Link>
+        <Link to="/crearTurno" className={styles.link}>
+          CREAR RESERVAS{" "}
+        </Link>
+        <Link to="/misTurnos" className={styles.link}>
+          MIS RESERVAS
+        </Link>
+        <button onClick={logOutHandler} className={styles.buttonLoggout}>
+          Cerrar Sesion
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,12 +1,48 @@
 .cajaTurno {
   margin: auto;
-  width: fit-content;
-  background-color: red;
-  border: solid rgb(126, 0, 0) 10px;
+  width: 50%;
+  color: black;
+  background-color: rgb(183, 122, 42);
+  border: solid rgb(126, 0, 0) 5px;
   border-radius: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
-  padding: 5px;
+  align-items: center;
+  padding: 2px;
   gap: 20px;
+}
+
+.cancelButton {
+  background-color: red;
+  border: solid black 1px;
+  height: fit-content;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  animation: shake 0.3s infinite;
+  border: solid black 3px;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

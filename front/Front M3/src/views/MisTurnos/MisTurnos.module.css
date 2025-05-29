@@ -1,0 +1,16 @@
+.intro {
+  color: black;
+  background-color: rgba(165, 42, 42, 0.482);
+  border-radius: 5px;
+  width: 35%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 1px;
+}
+
+.titulo {
+  text-decoration: underline;
+  font-size: 40px;
+}

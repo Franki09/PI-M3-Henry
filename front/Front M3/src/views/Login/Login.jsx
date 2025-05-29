@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { validateLogin } from "../../helpers/validate";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 
 const Login = () => {
@@ -46,10 +46,6 @@ const Login = () => {
     },
   });
 
-  const handleOnClick = () => {
-    navigate("/register");
-  };
-
   return (
     <div className={styles.cajaForm}>
       <form onSubmit={formik.handleSubmit}>
@@ -72,15 +68,12 @@ const Login = () => {
         </button>
       </form>
 
-      <h2>Todavia no te registraste?</h2>
-      <div className={styles.cajaParaRegister}>
-        <h3>
-          Toca aqui para <br /> hacer el registro ➡️
-        </h3>
-        <button onClick={handleOnClick} className={styles.button}>
+      <h2>
+        Todavia no te registraste?{" "}
+        <Link to={"/register"} className={styles.link}>
           Registrarse
-        </button>
-      </div>
+        </Link>
+      </h2>
     </div>
   );
 };

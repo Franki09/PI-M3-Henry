@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Turno from "../../components/Turno/Turno";
 import axios from "axios";
 import SinReservas from "../../components/SinReservas/SinReservas";
+import styles from "./MisTurnos.module.css";
 
 const MisTurnos = ({ userId, dataFromBack }) => {
   const [turnos, setTurnos] = useState([]);
@@ -33,8 +34,10 @@ const MisTurnos = ({ userId, dataFromBack }) => {
   } else {
     return (
       <>
-        <h1>Mis Reservas</h1>
-        <h2>Estas son las reservas del usuario:</h2>
+        <div className={styles.intro}>
+          <h1 className={styles.titulo}>Mis Reservas</h1>
+          <h2>Estas son las reservas del usuario:</h2>
+        </div>
 
         <div>
           {turnos.map((turno) => {

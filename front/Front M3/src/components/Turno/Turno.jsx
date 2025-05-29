@@ -44,20 +44,15 @@ const Turno = ({ id, date, time, status, setDataFromBack }) => {
 
   return (
     <div className={styles.cajaTurno}>
-      <h2>
-        {" "}
-        Id del turno: <strong>{id}</strong>
-      </h2>
-      <h2>
-        Fecha: <strong>{date}</strong>
-      </h2>
-      <h2>
-        Horario: <strong>{time}</strong>
-      </h2>
-      <h2>
-        Estado el turno: <strong>{currentStatus}</strong>
-      </h2>
-      {currentStatus === "active" && <button onClick={handleOnClick}>❌</button>}
+      <h2>Id: {id}</h2>
+      <h2>Fecha: {date}</h2>
+      <h2>Horario: {time}</h2>
+      <h2>Estado: {currentStatus}</h2>
+      {currentStatus === "active" && (
+        <button onClick={handleOnClick} className={styles.cancelButton}>
+          ❌
+        </button>
+      )}
     </div>
   );
 };

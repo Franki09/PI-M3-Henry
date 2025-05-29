@@ -69,7 +69,7 @@ const CrearTurno = ({ setDataFromBack }) => {
   };
 
   return (
-    <>
+    <div className={styles.separador}>
       <form onSubmit={handleSubmit} className={styles.cajaForm}>
         <h2>Hacer una Reserva</h2>
         <div className={styles.cajaInput}>
@@ -87,7 +87,7 @@ const CrearTurno = ({ setDataFromBack }) => {
           Crear Reserva
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

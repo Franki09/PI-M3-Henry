@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import styles from "./SinReservas.module.css";
 
 const SinReservas = () => {
   const navigate = useNavigate();
@@ -8,13 +9,15 @@ const SinReservas = () => {
   };
 
   return (
-    <>
+    <div className={styles.cajaSinReserva}>
       <h2>No hay reservas registradas por el momento</h2>
-      <div>
+      <div className={styles.cajaConButton}>
         <p>Quieres hacer una reserva? Clickea aqui ➡️</p>
-        <button onClick={handleOnClick}>Hacer una Reserva</button>
+        <button onClick={handleOnClick} className={styles.button}>
+          Hacer una Reserva
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -3,42 +3,37 @@
   border: solid brown 5px;
   border-radius: 15px;
   margin: auto;
-  width: fit-content;
+  width: 30%;
   padding: 15px;
   text-align: center;
+  margin-top: 50px;
 }
 
 .cajaInput {
-  padding-bottom: 15px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  text-align: center;
+  padding-bottom: 20px;
 }
 
 .buttonInput {
+  padding: 10px;
   margin: auto;
   border-radius: 10px;
   display: flex;
 }
 
 .buttonInput:hover {
-  background-color: aqua;
+  background-color: rgb(72, 177, 72);
 }
 
-.cajaParaRegister {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+.link {
+  text-decoration: none;
+  color: red;
+  transition: text-shadow 0.3s ease;
 }
 
-.button {
-  height: fit-content;
-  background-color: red;
-  border-radius: 50%;
-  border: solid black 2px;
-  padding: 10px;
-}
-
-.button:hover {
-  background-color: rgb(129, 34, 34);
+.link:hover {
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
 }
