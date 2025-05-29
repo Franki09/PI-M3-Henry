@@ -29,7 +29,7 @@ const Login = () => {
               text: "Bienvenido a la pagina",
             });
 
-            navigate("/home");
+            navigate("/");
           }
         })
         .catch((err) => {

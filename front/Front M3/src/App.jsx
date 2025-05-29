@@ -20,9 +20,20 @@ function App() {
 
     if (user) setUser(user.id);
 
-    if (!user && location.pathname !== "/" && location.pathname !== "/register") navigate("/");
+    // Si no está logueado y no está en login o register, redirigir a login
+    if (!user && location.pathname !== "/login" && location.pathname !== "/register") {
+      navigate("/login");
+    }
 
-    if (user && location.pathname === "/" && location.pathname === "/register") navigate("/home");
+    // Si está logueado y está en login, register, o ruta no válida, redirigir a home
+    if (
+      user &&
+      (location.pathname === "/login" ||
+        location.pathname === "/register" ||
+        (location.pathname !== "/" && location.pathname !== "/crearTurno" && location.pathname !== "/misTurnos"))
+    ) {
+      navigate("/");
+    }
   }, [location.pathname, user, navigate]);
 
   return (
@@ -31,14 +42,14 @@ function App() {
 
       {!user ? (
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
       ) : (
         <div className="app-content">
           <NavBar setUser={setUser} setDataFromBack={setDataFromBack} />
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/crearTurno" element={<CrearTurno setDataFromBack={setDataFromBack} />} />
             <Route path="/misTurnos" element={<MisTurnos userId={user} dataFromBack={{ dataFromBack, setDataFromBack }} />} />
           </Routes>

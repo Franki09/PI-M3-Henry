@@ -26,7 +26,7 @@ const NavBar = ({ setUser, setDataFromBack }) => {
         }).then(() => {
           setUser(false);
           setDataFromBack(false);
-          navigate("/");
+          navigate("/login");
         });
       }
     });
@@ -40,7 +40,7 @@ const NavBar = ({ setUser, setDataFromBack }) => {
       </div>
 
       <div className={styles.derecha}>
-        <Link to="/home" className={styles.link}>
+        <Link to="/" className={styles.link}>
           HOME
         </Link>
         <Link to="/crearTurno" className={styles.link}>

@@ -19,17 +19,16 @@ const Turno = ({ id, date, time, status, setDataFromBack }) => {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          axios.put(`http://localhost:3000/appointments/cancel/ ${id}`).then((res) => {
-            console.log("Respuesta del backend:", res.data);
+          axios.put(`http://localhost:3000/appointments/cancel/ ${id}`).then(() => {
             Swal.fire({
               title: "Cancelado!",
               text: "Tu reserva ha sido cancelada.",
               icon: "success",
             });
+            setCurrentStatus("cancelled");
+            setDataFromBack(false);
           });
         }
-        setDataFromBack(false);
-        setCurrentStatus("cancelled");
       })
 
       .catch((error) => {
